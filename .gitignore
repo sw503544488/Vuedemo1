@@ -10,13 +10,13 @@ node_modules
 # local env files
 .env.local
 .env.*.local
-
+/src/assets/logo.png
 # Log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
+/.browserslistrc
 # Editor directories and files
 .idea
 .vscode
