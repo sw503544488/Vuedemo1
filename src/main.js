@@ -1,51 +1,61 @@
+// import Vue from 'vue';
 const Vue = window.Vue
 Vue.config.productionTip = false
-import Demo from "./Demo";
+// import Demo from "./Demo";
+let id = 0
+const creatUser = (name, gender) => {
+  id += 1
+  return {id: id, name: name, gender: gender}
+}
 
 new Vue({
-    data: {
-        visible: true
-    }, template: `
-    <div class="frank">
-    {{ n }}
-    <button @click='add'>
-      +1
-    </button>
-    <hr>
+  data() {
+    return {
+      users: [
+        creatUser('小白', '男'),
+        creatUser('小红', '女'),
+        creatUser('小明', '男'),
+        creatUser('小绿', '女'),
+
+
+      ],
+      gender: ''
+    }
+  },
+  computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
+    displayUsers: function () {
+      const hash = {
+        male: '男',
+        female: '女'
+      }
+      const {users, gender} = this
+      if (gender === "") {
+        return users;
+      } else if (typeof gender === 'string') {
+        return users.filter(u => u.gender === hash[gender])
+      }
+    },
+  }
+  ,
+  methods: {
+    setGender(string) {
+      console.log(string)
+      this.gender = string
+    }
+  },
+  template: `
+    <div>
+    <div>
+      <button @click="setGender('')">全部</button>
+      <button @click="setGender('male')">男</button>
+      <button @click="setGender('female')">女</button>
+      <ul>
+        <li v-for="(u,index) in displayUsers" :key="index">{{ u.name }}-{{ u.gender }}</li>
+      </ul>
     </div>
-    `,
-    created() {
-        console.log('实例出现在内存中')
-    },
-    mounted() {
-        console.log('实例出现在页面中')
-    },
-    updated() {
-        console.log('更新了')
-    },
-    methods: {
-        add() {
-            this.n += 1
-        }
-    }
+    </div>
 
-}).$mount('#frank')
+  `
+}).$mount('.frank')
 
-new Vue({
-    data: {visible: true},
-    components: {Demo},
-    template: `
-      <div>
-      <button @click="toggle" v-if="visible===true">toogle</button>
-      <hr>
-      <Demo message="你好props"/>
-      </div>
-    `,
-    methods: {
-        toggle() {
-            this.visible = !this.visible
-        }
-    }, destroyed() {
-        console.log('被吹毁')
-    }
-}).$mount('.app')

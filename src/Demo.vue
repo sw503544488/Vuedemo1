@@ -1,6 +1,6 @@
 <template>
   <div class="red">
-    {{ message }}
+    {{ n }}
     <button @click="add">+1</button>
 
   </div>
@@ -8,7 +8,13 @@
 <script>
 export default {
   props: ['message']
-}
+,
+methods:{
+    add(){
+      this.n+=1
+    }
+}}
+
 </script>
 <style scoped>
 .red {
